@@ -1,27 +1,34 @@
-import Navbar from './components/navbar/Navbar';
-import './globals.css'
-import { Nunito } from 'next/font/google'
+import ClientOnly from "./components/ClientOnly";
+import RegisterModal from "./components/modals/RegisterModal";
+import Navbar from "./components/navbar/Navbar";
+import "./globals.css";
+import { Nunito } from "next/font/google";
+import ToasterProvider from "./providers/ToasterProvider";
 
 export const metadata = {
-  title: 'HostMe App',
-  description: 'The next version of hosting platforms',
-}
+  title: "HostMe App",
+  description: "The next version of hosting platforms",
+};
 
 const font = Nunito({
-  subsets: ['latin'],
+  subsets: ["latin"],
 });
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body className={font.className}>
-        <Navbar />
+        <ClientOnly>
+          <ToasterProvider />
+          <RegisterModal />
+          <Navbar />
+        </ClientOnly>
         {children}
       </body>
     </html>
-  )
+  );
 }
