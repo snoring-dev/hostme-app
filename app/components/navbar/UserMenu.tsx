@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useRef, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
+import { useOnClickOutside } from "usehooks-ts";
 import { AuthContext } from "@/app/context/AuthContext";
 
 function UserMenu() {
@@ -15,6 +16,9 @@ function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpening = useCallback(() => setIsOpen((value) => !value), []);
   const { currentUser } = useContext(AuthContext);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useOnClickOutside(userMenuRef, () => setIsOpen(false));
 
   return (
     <div className="relative">
@@ -56,13 +60,14 @@ function UserMenu() {
         >
           <AiOutlineMenu size={18} />
           <div className="hidden md:block">
-            <Avatar src={currentUser?.image ?? ''} />
+            <Avatar src={currentUser?.image ?? ""} />
           </div>
         </div>
       </div>
 
       {isOpen && (
         <div
+          ref={userMenuRef}
           className="
                 absolute
                 rounded-xl
@@ -80,27 +85,12 @@ function UserMenu() {
             {currentUser ? (
               <>
                 <MenuItem onClick={() => {}} label="My trips" />
-                <MenuItem
-                  onClick={() => {}}
-                  label="My favorites"
-                />
-                <MenuItem
-                  onClick={() => {}}
-                  label="My reservations"
-                />
-                <MenuItem
-                  onClick={() => {}}
-                  label="My properties"
-                />
-                <MenuItem
-                  onClick={() => {}}
-                  label="Host my home"
-                />
+                <MenuItem onClick={() => {}} label="My favorites" />
+                <MenuItem onClick={() => {}} label="My reservations" />
+                <MenuItem onClick={() => {}} label="My properties" />
+                <MenuItem onClick={() => {}} label="Host my home" />
                 <hr />
-                <MenuItem
-                  onClick={() => signOut()}
-                  label="Logout"
-                />
+                <MenuItem onClick={() => signOut()} label="Logout" />
               </>
             ) : (
               <>
