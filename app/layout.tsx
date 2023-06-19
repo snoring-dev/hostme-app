@@ -26,11 +26,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <ClientOnly>
-          <ToasterProvider />
-          <RegisterModal />
-          <LoginModal />
-          <Navbar currentUser={currentUser} />
+        <ClientOnly currentUser={ currentUser }>
+            <ToasterProvider />
+            <RegisterModal />
+            <LoginModal />
+            <Navbar />
         </ClientOnly>
         {children}
       </body>

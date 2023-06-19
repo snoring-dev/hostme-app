@@ -34,6 +34,7 @@ function LoginModal() {
     setIsLoading(true);
     try {
       const resp = await signIn("credentials", { ...data, redirect: false });
+      console.log('RESP =>', resp);
       if (resp?.ok) {
         toast.success("Successfully logged in!");
         router.refresh();
@@ -88,13 +89,13 @@ function LoginModal() {
             outline
             label="Sign-up using Google"
             icon={FcGoogle}
-            onClick={() => {}}
+            onClick={() => signIn('google')}
           />
           <Button
             outline
             label="Sign-up using Github"
             icon={AiFillGithub}
-            onClick={() => {}}
+            onClick={() => signIn('github')}
           />
           <div className="text-neutral-500 text-center mt-4 font-light">
             <div className="flex flex-row items-center justify-center gap-2">
