@@ -11,6 +11,7 @@ import CategoryInput from "../inputs/CategoryInput";
 import { FieldValues, useForm } from "react-hook-form";
 import CountrySelect from "../inputs/CountrySelect";
 import Counter from "../inputs/Counter";
+import ImageUpload from "../inputs/ImageUpload";
 
 function RentModal() {
   const rentModal = useRentModal();
@@ -42,6 +43,7 @@ function RentModal() {
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
+  const imageSrc = watch("imageSrc");
 
   const customSetValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -146,6 +148,21 @@ function RentModal() {
           subtitle="How many bathrooms do you have?"
           value={bathroomCount}
           onChange={(value) => customSetValue("bathroomCount", value)}
+        />
+      </div>
+    );
+  }
+
+  if (step === HOSTING_STEPS.IMAGES) {
+    modalBody = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Add photos of your place"
+          subtitle="Show guests what your place looks like!"
+        />
+        <ImageUpload
+          value={imageSrc}
+          onChange={(val) => customSetValue("imageSrc", val)}
         />
       </div>
     );
