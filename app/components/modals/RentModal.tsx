@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import Modal from "./Modal";
 import useRentModal from "@/app/hooks/useRentModal";
 import { HOSTING_STEPS } from "@/app/types";
@@ -8,6 +9,7 @@ import Heading from "../Heading";
 import { categories } from "@/app/utils/categories";
 import CategoryInput from "../inputs/CategoryInput";
 import { FieldValues, useForm } from "react-hook-form";
+import CountrySelect from "../inputs/CountrySelect";
 
 function RentModal() {
   const rentModal = useRentModal();
@@ -35,6 +37,8 @@ function RentModal() {
   });
 
   const category = watch("category");
+  const location = watch("location");
+
   const customSetValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldDirty: true,
@@ -67,7 +71,13 @@ function RentModal() {
     return "Back";
   }, [step]);
 
-  const modalBody = (
+  const Map = useMemo(
+    () => dynamic(() => import("../Map"), { ssr: false }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location]
+  );
+
+  let modalBody = (
     <div className="flex flex-col gap-8">
       <Heading
         title="Which of the following describes the best your place?"
@@ -78,7 +88,7 @@ function RentModal() {
           return (
             <div className="col-span-1" key={index}>
               <CategoryInput
-                onClick={(cat) => customSetValue('category', cat)}
+                onClick={(cat) => customSetValue("category", cat)}
                 selected={category === item.label}
                 label={item.label}
                 icon={item.icon}
@@ -90,11 +100,27 @@ function RentModal() {
     </div>
   );
 
+  if (step === HOSTING_STEPS.LOCATION) {
+    modalBody = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Where is your place located?"
+          subtitle="How guests can find you!"
+        />
+        <CountrySelect
+          value={location}
+          onChange={(val) => customSetValue("location", val)}
+        />
+        <Map center={location?.latlng} />
+      </div>
+    );
+  }
+
   return (
     <Modal
       title="Hostify your home!"
       onClose={rentModal.onClose}
-      onSubmit={rentModal.onClose}
+      onSubmit={onNext}
       isOpen={rentModal.isOpen}
       actionLabel={actionLabel}
       secondaryLabel={secondaryActionLabel}
