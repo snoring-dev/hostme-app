@@ -15,3 +15,12 @@ export type Category = {
   description: string;
   icon: IconType;
 };
+
+export enum HOSTING_STEPS {
+  CATEGORY = 0,
+  LOCATION = 1,
+  INFO = 2,
+  IMAGES = 3,
+  DESCRIPTION = 4,
+  PRICE = 5,
+};

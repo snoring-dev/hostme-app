@@ -9,10 +9,12 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { signOut } from "next-auth/react";
 import { useOnClickOutside } from "usehooks-ts";
 import { AuthContext } from "@/app/context/AuthContext";
+import useRentModal from "@/app/hooks/useRentModal";
 
 function UserMenu() {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+  const rentModal = useRentModal();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpening = useCallback(() => setIsOpen((value) => !value), []);
   const { currentUser } = useContext(AuthContext);
@@ -20,11 +22,19 @@ function UserMenu() {
 
   useOnClickOutside(userMenuRef, () => setIsOpen(false));
 
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    rentModal.onOpen();
+  }, [currentUser, loginModal, rentModal]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-          onClick={() => console.log("clicked!")}
+          onClick={onRent}
           className="
                     hidden
                     md:block
@@ -88,7 +98,7 @@ function UserMenu() {
                 <MenuItem onClick={() => {}} label="My favorites" />
                 <MenuItem onClick={() => {}} label="My reservations" />
                 <MenuItem onClick={() => {}} label="My properties" />
-                <MenuItem onClick={() => {}} label="Host my home" />
+                <MenuItem onClick={rentModal.onOpen} label="Host my home" />
                 <hr />
                 <MenuItem onClick={() => signOut()} label="Logout" />
               </>
