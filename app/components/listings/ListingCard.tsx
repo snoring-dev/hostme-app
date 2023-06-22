@@ -27,7 +27,6 @@ function ListingCard({
   actionId = "",
   actionLabel = "",
 }: Props) {
-  const currentUser = useContext(AuthContext);
   const router = useRouter();
   const { getByValue } = useCountries();
   const location = getByValue(data.locationValue);
