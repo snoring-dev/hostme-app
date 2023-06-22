@@ -18,8 +18,13 @@ export type Listing = Omit<ListingModel, "createdAt"> & {
   createdAt: string;
 };
 
-export type Reservation = Omit<ReservationModel, "createdAt"> & {
+export type Reservation = Omit<
+  ReservationModel,
+  "createdAt" | "startDate" | "endDate"
+> & {
   createdAt: string;
+  startDate: string;
+  endDate: string;
 };
 
 export type Category = {

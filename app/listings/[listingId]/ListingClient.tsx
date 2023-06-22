@@ -27,14 +27,14 @@ const initialDateRange = {
 };
 
 interface Props {
-  listing: Listing & { user: AppUser };
-  reservations?: Reservation[];
+  listing: Listing & { user: AppUser; reservations: Reservation[] };
 }
 
-function ListingClient({ listing, reservations = [] }: Props) {
+function ListingClient({ listing }: Props) {
   const loginModal = useLoginModal();
   const router = useRouter();
   const { currentUser } = useContext(AuthContext);
+  const { reservations = [] } = listing;
 
   const category = useMemo(() => {
     return categories.find((c) => c.label === listing.category);

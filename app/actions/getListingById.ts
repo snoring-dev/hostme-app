@@ -1,7 +1,7 @@
 import prisma from "@/app/utils/prismadb";
 
 export default async function getListingById(listingId: string) {
-  console.log('LISTING_ID:', listingId);
+  console.log("LISTING_ID:", listingId);
   if (!listingId) return null;
 
   try {
@@ -11,6 +11,7 @@ export default async function getListingById(listingId: string) {
       },
       include: {
         user: true,
+        reservations: true,
       },
     });
 
@@ -27,6 +28,14 @@ export default async function getListingById(listingId: string) {
         updatedAt: listing.user.updatedAt.toISOString(),
         emailVerified: listing.user.emailVerified?.toISOString(),
       },
+      reservations: [
+        ...listing.reservations.map((r) => ({
+          ...r,
+          createdAt: r.createdAt.toISOString(),
+          startDate: r.startDate.toISOString(),
+          endDate: r.endDate.toISOString(),
+        })),
+      ],
     };
   } catch (e: any) {
     throw new Error(e);
