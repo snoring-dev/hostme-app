@@ -1,17 +1,15 @@
 "use client";
 
 import React, { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import useFavorite from "../hooks/useFavorite";
 
 interface Props {
   listingId: string;
 }
 
 function HeartButton({ listingId }: Props) {
-  const currentUser = useContext(AuthContext);
-  const hasFavorited = false;
-  const toggleFavorite = () => {};
+  const { hasFavorited, toggleFavorite } = useFavorite(listingId);
 
   return (
     <div
