@@ -1,4 +1,8 @@
-import { User } from "@prisma/client";
+import {
+  User,
+  Listing as ListingModel,
+  Reservation as ReservationModel,
+} from "@prisma/client";
 import { IconType } from "react-icons";
 
 export type AppUser = Omit<
@@ -8,6 +12,14 @@ export type AppUser = Omit<
   createdAt: string;
   updatedAt: string;
   emailVerified: string | null;
+};
+
+export type Listing = Omit<ListingModel, "createdAt"> & {
+  createdAt: string;
+};
+
+export type Reservation = Omit<ReservationModel, "createdAt"> & {
+  createdAt: string;
 };
 
 export type Category = {
@@ -23,4 +35,4 @@ export enum HOSTING_STEPS {
   IMAGES = 3,
   DESCRIPTION = 4,
   PRICE = 5,
-};
+}
