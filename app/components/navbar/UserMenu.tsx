@@ -10,11 +10,13 @@ import { signOut } from "next-auth/react";
 import { useOnClickOutside } from "usehooks-ts";
 import { AuthContext } from "@/app/context/AuthContext";
 import useRentModal from "@/app/hooks/useRentModal";
+import { useRouter } from "next/navigation";
 
 function UserMenu() {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const rentModal = useRentModal();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpening = useCallback(() => setIsOpen((value) => !value), []);
   const { currentUser } = useContext(AuthContext);
@@ -96,7 +98,7 @@ function UserMenu() {
               <>
                 <MenuItem onClick={() => {}} label="My trips" />
                 <MenuItem onClick={() => {}} label="My favorites" />
-                <MenuItem onClick={() => {}} label="My reservations" />
+                <MenuItem onClick={() => router.push('/trips')} label="My reservations" />
                 <MenuItem onClick={() => {}} label="My properties" />
                 <MenuItem onClick={rentModal.onOpen} label="Host my home" />
                 <hr />

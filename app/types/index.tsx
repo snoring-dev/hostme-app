@@ -33,6 +33,11 @@ export type Category = {
   icon: IconType;
 };
 
+export type Resa = Reservation & {
+  listing: Listing;
+  user: AppUser;
+};
+
 export enum HOSTING_STEPS {
   CATEGORY = 0,
   LOCATION = 1,

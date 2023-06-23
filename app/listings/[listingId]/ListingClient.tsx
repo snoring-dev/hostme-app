@@ -69,7 +69,7 @@ function ListingClient({ listing }: Props) {
       });
       toast.success("Yooha! Reservation created successfully.");
       setDateRange(initialDateRange);
-      router.refresh();
+      router.push('/trips');
     } catch (e: any) {
       toast.error("Something went wrong, please try again!");
     } finally {
