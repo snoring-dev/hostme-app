@@ -61,7 +61,7 @@ function ListingClient({ listing }: Props) {
     if (!currentUser) return loginModal.onOpen();
     setIsLoading(true);
     try {
-      const resp = await axios.post("/api/reservations", {
+      await axios.post("/api/reservations", {
         totalPrice,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
