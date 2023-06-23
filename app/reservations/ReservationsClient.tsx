@@ -1,11 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { Resa } from "../types";
 import { useCallback, useContext, useState } from "react";
-import { AppUser, Listing, Resa, Reservation } from "../types";
 import { AuthContext } from "../context/AuthContext";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ListingCard from "../components/listings/ListingCard";
@@ -14,8 +14,9 @@ interface Props {
   reservations: Resa[];
 }
 
-function TripsClient({ reservations }: Props) {
+function ReservationsClient({ reservations }: Props) {
   const router = useRouter();
+  const { currentUser } = useContext(AuthContext);
   const [deletingId, setDeletingId] = useState("");
 
   const onCancel = useCallback(
@@ -24,7 +25,7 @@ function TripsClient({ reservations }: Props) {
       try {
         const resp = await axios.delete(`/api/reservations/${id}`);
         if (resp) {
-          toast.success("Your trip has been canceled!");
+          toast.success("Reservation canceled!");
           router.refresh();
         }
       } catch (e: any) {
@@ -38,10 +39,7 @@ function TripsClient({ reservations }: Props) {
 
   return (
     <Container>
-      <Heading
-        title="Trips"
-        subtitle="Where you've been and where you're going!"
-      />
+      <Heading title="Reservations" subtitle="Bookings on your properties" />
       <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
         {reservations.map((resa) => (
           <ListingCard
@@ -51,7 +49,7 @@ function TripsClient({ reservations }: Props) {
             actionId={resa.id}
             onAction={onCancel}
             disabled={deletingId === resa.id}
-            actionLabel="Cancel this trip"
+            actionLabel="Cancel this reservation"
           />
         ))}
       </div>
@@ -59,4 +57,4 @@ function TripsClient({ reservations }: Props) {
   );
 }
 
-export default TripsClient;
+export default ReservationsClient;
