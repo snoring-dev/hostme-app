@@ -109,7 +109,7 @@ function UserMenu() {
                   label="My reservations"
                 />
                 <MenuItem
-                  onClick={() => router.push("/properties")}
+                  onClick={() => router.push(`/properties/?userId=${currentUser.id}`)}
                   label="My properties"
                 />
                 <MenuItem onClick={rentModal.onOpen} label="Host my home" />
