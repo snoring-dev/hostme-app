@@ -135,7 +135,9 @@ function SearchModal() {
         />
         <Calendar
           value={dateRange}
-          onChange={(selection) => setDateRange(selection)}
+          onChange={(value) => {
+            setDateRange(value.selection);
+          }}
         />
       </div>
     );
@@ -181,6 +183,7 @@ function SearchModal() {
       actionLabel={actionLabel}
       secondaryLabel={secondaryActionLabel}
       secondaryAction={step === SEARCH_STEPS.LOCATION ? undefined : onBack}
+      body={modalBody}
     />
   );
 }
