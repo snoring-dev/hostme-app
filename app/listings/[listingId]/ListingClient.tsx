@@ -5,7 +5,7 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import { AuthContext } from "@/app/context/AuthContext";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { AppUser, Listing, Reservation } from "@/app/types";
+import { AppUser, Listing, Reservation, SafeListing } from "@/app/types";
 import { categories } from "@/app/utils/categories";
 import axios from "axios";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
@@ -27,7 +27,7 @@ const initialDateRange = {
 };
 
 interface Props {
-  listing: Listing & { user: AppUser; reservations: Reservation[] };
+  listing: SafeListing;
 }
 
 function ListingClient({ listing }: Props) {

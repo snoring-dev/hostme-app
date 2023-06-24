@@ -4,6 +4,7 @@ import ClientOnly from '@/app/components/ClientOnly';
 import EmptyState from '@/app/components/EmptyState';
 import React from 'react'
 import ListingClient from './ListingClient';
+import { SafeListing } from '@/app/types';
 
 interface Props {
   params: {
@@ -25,7 +26,7 @@ async function ListingPage({ params }: Props) {
 
   return (
     <ClientOnly currentUser={user}>
-      <ListingClient listing={listing} />
+      <ListingClient listing={listing as SafeListing} />
     </ClientOnly>
   )
 }

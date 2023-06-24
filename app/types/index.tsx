@@ -38,6 +38,11 @@ export type Resa = Reservation & {
   user: AppUser;
 };
 
+export type SafeListing = Listing & {
+  user: AppUser;
+  reservations: Reservation[];
+};
+
 export enum HOSTING_STEPS {
   CATEGORY = 0,
   LOCATION = 1,
