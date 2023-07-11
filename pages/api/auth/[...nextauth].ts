@@ -2,6 +2,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 import CredentialProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import prismaDb from "@/app/utils/prismadb";
@@ -16,6 +17,10 @@ export const authOptions: AuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_CLIENT_ID as string,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
     }),
     CredentialProvider({
       name: "credentials",
@@ -33,13 +38,16 @@ export const authOptions: AuthOptions = {
         });
 
         if (!user || !user.hashedPassword) {
-            throw Error('Invalid Credentials');
+          throw Error("Invalid Credentials");
         }
 
-        const isCorrectPassword = await bcrypt.compare(credentials.password, user.hashedPassword);
+        const isCorrectPassword = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword
+        );
 
         if (!isCorrectPassword) {
-            throw Error('Invalid Credentials');
+          throw Error("Invalid Credentials");
         }
 
         return user;
@@ -47,11 +55,11 @@ export const authOptions: AuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/',
+    signIn: "/",
   },
-  debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === "development",
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

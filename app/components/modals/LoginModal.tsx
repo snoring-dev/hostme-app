@@ -1,6 +1,6 @@
 "use client";
-import axios, { AxiosError } from "axios";
 import { AiFillGithub } from "react-icons/ai";
+import { GrFacebook } from "react-icons/gr";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -34,7 +34,6 @@ function LoginModal() {
     setIsLoading(true);
     try {
       const resp = await signIn("credentials", { ...data, redirect: false });
-      console.log("RESP =>", resp);
       if (resp?.ok) {
         toast.success("Successfully logged in!");
         router.refresh();
@@ -92,15 +91,21 @@ function LoginModal() {
           <hr />
           <Button
             outline
-            label="Sign-up using Google"
+            label="Login using Google"
             icon={FcGoogle}
             onClick={() => signIn("google")}
           />
           <Button
             outline
-            label="Sign-up using Github"
+            label="Login using Github"
             icon={AiFillGithub}
             onClick={() => signIn("github")}
+          />
+          <Button
+            outline
+            label="Login with Facebook"
+            icon={GrFacebook}
+            onClick={() => signIn("facebook")}
           />
           <div className="text-neutral-500 text-center mt-4 font-light">
             <div className="flex flex-row items-center justify-center gap-2">

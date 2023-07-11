@@ -1,5 +1,6 @@
 "use client";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { GrFacebook } from "react-icons/gr";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
@@ -34,7 +35,7 @@ function RegisterModal() {
       await axios.post("/api/register", data);
       registerModal.onClose();
       loginModal.onOpen();
-      toast.success('Great! Welcome to our community.');
+      toast.success("Great! Welcome to our community.");
     } catch (err: any) {
       toast.error(err.message);
     } finally {
@@ -103,6 +104,12 @@ function RegisterModal() {
             label="Sign-up using Github"
             icon={AiFillGithub}
             onClick={() => signIn("github")}
+          />
+          <Button
+            outline
+            label="Sign-up using Facebook"
+            icon={GrFacebook}
+            onClick={() => signIn("facebook")}
           />
           <div className="text-neutral-500 text-center mt-4 font-light">
             <div className="flex flex-row items-center justify-center gap-2">
