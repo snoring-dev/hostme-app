@@ -38,6 +38,7 @@ function RentModal() {
       roomCount: 1,
       bathroomCount: 1,
       imageSrc: "",
+      otherPictures: [],
       price: 1,
       title: "",
       description: "",
@@ -50,6 +51,7 @@ function RentModal() {
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
   const imageSrc = watch("imageSrc");
+  const otherPictures = watch("otherPictures");
 
   const customSetValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -69,14 +71,14 @@ function RentModal() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== HOSTING_STEPS.PRICE) {
-       return onNext();
+      return onNext();
     }
 
     setIsLoading(true);
     try {
-      const resp = await axios.post('/api/listings', data);
+      const resp = await axios.post("/api/listings", data);
       if (resp) {
-        toast.success('Listing created!')
+        toast.success("Listing created!");
         router.refresh();
         reset();
         setStep(HOSTING_STEPS.CATEGORY);
@@ -87,7 +89,7 @@ function RentModal() {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const actionLabel = useMemo(() => {
     if (step === HOSTING_STEPS.PRICE) {
@@ -189,8 +191,14 @@ function RentModal() {
           subtitle="Show guests what your place looks like!"
         />
         <ImageUpload
-          value={imageSrc}
-          onChange={(val) => customSetValue("imageSrc", val)}
+          onUploadStart={() => setIsLoading(true)}
+          onUploadEnd={() => setIsLoading(false)}
+          values={[imageSrc, ...otherPictures].filter(img => img !== '')}
+          onChange={(images: string[]) => {
+            const mainPicture = images.shift();
+            customSetValue("imageSrc", mainPicture);
+            customSetValue("otherPictures", [...images]);
+          }}
         />
       </div>
     );

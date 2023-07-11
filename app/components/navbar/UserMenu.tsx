@@ -50,7 +50,7 @@ function UserMenu() {
                     cursor-pointer
                 "
         >
-          Airbnb your home
+          Hostify property !
         </div>
         <div
           onClick={toggleOpening}
