@@ -4,6 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
+import { MdOutlineClose } from "react-icons/md";
 
 interface Props {
   values: string[];
@@ -46,6 +47,11 @@ function ImageUpload({ onChange, onUploadEnd, onUploadStart, values }: Props) {
     }
   };
 
+  const deleteImage = (index: number) => {
+    const newPictures = [...uploadedImages.filter((_, i) => i !== index)];
+    setUploadedImages(newPictures);
+  };
+
   return (
     <>
       {uploadedImages.length > 0 && (
@@ -61,6 +67,14 @@ function ImageUpload({ onChange, onUploadEnd, onUploadStart, values }: Props) {
                 src={imgSrc}
                 className="object-cover h-full w-full group-hover:scale-110 transition"
               />
+              <div
+                onClick={() => deleteImage(index)}
+                className="absolute cursor-pointer top-1 right-1 p-[4px] rounded-full bg-black/70 flex items-center justify-center"
+              >
+                <span className="text-white">
+                  <MdOutlineClose size={12} fill="#FFFFFF" color="#FFFFFF" />
+                </span>
+              </div>
             </div>
           ))}
         </div>
